@@ -460,7 +460,7 @@
       <div class="footer-col">
         <h4>Contact</h4>
         <address>
-          <a href="mailto:hello@trace.sg">hello@trace.sg</a>
+          <a href="/cdn-cgi/l/email-protection#157d7079797a5561677476703b6672"><span class="__cf_email__" data-cfemail="19717c757576596d6b787a7c376a7e">[email&#160;protected]</span></a>
         </address>
       </div>
     </div>
@@ -473,7 +473,7 @@
     </div>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     // Track which button was clicked
     let selectedRole = 'user';
     document.querySelectorAll('.btn[data-role]').forEach(btn => {
@@ -497,20 +497,50 @@
       }
 
       // ── TALLY INTEGRATION ──────────────────────────────────────────────────
-      // Replace YOUR_TALLY_FORM_ID below with the ID from your Tally share link
-      // e.g. if your link is https://tally.so/r/abcd12 → use "abcd12"
-      //
       const TALLY_FORM_ID = 'Np027j';
-      //
-      const params = new URLSearchParams({
+
+      const iframe = document.createElement('iframe');
+      iframe.name = 'tally-iframe';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+
+      const tallyForm = document.createElement('form');
+      tallyForm.method = 'POST';
+      tallyForm.action = `https://tally.so/r/${TALLY_FORM_ID}`;
+      tallyForm.target = 'tally-iframe';
+      tallyForm.style.display = 'none';
+
+      const fields = {
         'Name':    document.getElementById('name').value,
         'Email':   document.getElementById('email').value,
         'Phone':   document.getElementById('phone').value,
         'Country': document.getElementById('country').value,
         'Role':    selectedRole,
+      };
+
+      Object.entries(fields).forEach(([key, value]) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = value;
+        tallyForm.appendChild(input);
       });
-      //
-      // Opens Tally form in background (user sees success state immediately)
-      fetch(`https://tally.so/r/${TALLY_FORM_ID}?${params.toString()}`, { mode: 'no-cors' })
-        .catch(() => {}); // Silent — no-cors won't return a readable response
-      // ────────────────────────
+
+      document.body.appendChild(tallyForm);
+      tallyForm.submit();
+
+      setTimeout(() => {
+        document.body.removeChild(tallyForm);
+        document.body.removeChild(iframe);
+      }, 3000);
+      // ──────────────────────────────────────────────────────────────────────
+
+      // Show success state
+      document.getElementById('signupForm').style.display = 'none';
+      const s = document.getElementById('successState');
+      s.style.display = 'flex';
+    });
+  </script>
+
+</body>
+</html>
