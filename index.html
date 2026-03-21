@@ -478,43 +478,20 @@
         return;
       }
 
-      // ── TALLY INTEGRATION ──────────────────────────────────────────────────
-      const TALLY_FORM_ID = 'Np027j';
+      // ── WEB3FORMS INTEGRATION ──────────────────────────────────────────────
+      const formData = new FormData();
+      formData.append('access_key', '21b1830c-fc8b-42e0-a82e-71ab0d6c73ba');
+      formData.append('Name',    document.getElementById('name').value);
+      formData.append('Email',   document.getElementById('email').value);
+      formData.append('Phone',   document.getElementById('phone').value);
+      formData.append('Country', document.getElementById('country').value);
+      formData.append('Role',    selectedRole);
+      formData.append('subject', 'New Trace Sign Up — ' + selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1));
 
-      const iframe = document.createElement('iframe');
-      iframe.name = 'tally-iframe';
-      iframe.style.display = 'none';
-      document.body.appendChild(iframe);
-
-      const tallyForm = document.createElement('form');
-      tallyForm.method = 'POST';
-      tallyForm.action = `https://tally.so/r/${TALLY_FORM_ID}`;
-      tallyForm.target = 'tally-iframe';
-      tallyForm.style.display = 'none';
-
-      const fields = {
-        'Name':    document.getElementById('name').value,
-        'Email':   document.getElementById('email').value,
-        'Phone':   document.getElementById('phone').value,
-        'Country': document.getElementById('country').value,
-        'Role':    selectedRole,
-      };
-
-      Object.entries(fields).forEach(([key, value]) => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = value;
-        tallyForm.appendChild(input);
-      });
-
-      document.body.appendChild(tallyForm);
-      tallyForm.submit();
-
-      setTimeout(() => {
-        document.body.removeChild(tallyForm);
-        document.body.removeChild(iframe);
-      }, 3000);
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData
+      }).catch(() => {});
       // ──────────────────────────────────────────────────────────────────────
 
       // Show success state
