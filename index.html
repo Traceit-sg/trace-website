@@ -186,21 +186,6 @@
       margin: 24px 0;
     }
 
-    .consent input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      min-width: 18px;
-      border: 1px solid var(--border);
-      border-radius: 5px;
-      background: var(--cream);
-      cursor: pointer;
-      margin-top: 1px;
-      accent-color: var(--accent-dark);
-      appearance: checkbox;
-      padding: 0;
-      box-shadow: none;
-    }
-
     .consent p {
       font-size: 12px;
       color: var(--mid);
@@ -429,8 +414,7 @@
         </div>
 
         <div class="consent">
-          <input type="checkbox" id="consent" name="consent" required />
-          <p>I agree to be contacted by Trace regarding updates, onboarding, and promotional information. You may withdraw consent at any time by emailing us at <a href="/cdn-cgi/l/email-protection#61321411110e13152115130002044f1206"><span class="__cf_email__" data-cfemail="c291b7b2b2adb0b682b6b0a3a1a7ecb1a5">[email&#160;protected]</span></a>.</p>
+          <p>By submitting your details, you agree to be contacted by Trace regarding updates, onboarding, and promotional information. You may withdraw consent at any time by emailing us at <a href="mailto:Support@trace.sg">Support@trace.sg</a>.</p>
         </div>
 
         <div class="btn-group">
@@ -488,14 +472,9 @@
 
       const name    = document.getElementById('name').value.trim();
       const email   = document.getElementById('email').value.trim();
-      const consent = document.getElementById('consent').checked;
 
       if (!name || !email) {
         alert('Please enter your name and email.');
-        return;
-      }
-      if (!consent) {
-        alert('Please agree to the consent statement to continue.');
         return;
       }
 
